@@ -9,6 +9,7 @@ import (
 	"database/sql" // perform SQL calls
 	"log"          // logging package
 	"os"           // for getting environment variables
+	"strings"      // string manipulation utilities
 
 	_ "github.com/lib/pq"                     // PostgreSQL driver
 	"github.com/shawnmilo/index_lore/elastic" // Elasticsearch driver
@@ -48,6 +49,9 @@ func connectToPostgres() {
 func connectToElasticsearch() {
 	var err error
 	esURL := os.Getenv("HAYSTACK_URL")
+	if !strings.HasPrefix(esURL, "http") {
+		esURL = "http://" + esURL
+	}
 	es, err = elastic.NewClient(elastic.SetURL(esURL))
 	if err != nil {
 		log.Fatalf("Unable to connect to Elasticsearch at URL %s: %s\n", esURL, err)
