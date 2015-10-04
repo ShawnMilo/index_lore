@@ -71,7 +71,7 @@ func (r Repository) String() string {
 // getVocabularies gets all vocabularies and terms for a Repository.
 func getVocabularies(repo *Repository) {
 	// get vocabularies
-	rows, err := db.Query(vocabularyQuery, repo.id)
+	rows, err := db.Query(repositoryVocabularyQuery, repo.id)
 	if err != nil {
 		log.Fatal("Unable to query vocabularies: ", err)
 	}
@@ -290,4 +290,24 @@ func stripXML(s string) string {
 		inTag = false
 	}
 	return buf.String()
+}
+
+// getVocabularyNames gets the names of all the vocabularies
+// in the database. This is used when creating indexes.
+func getVocabularyNames() []string {
+	// get vocabulary names
+	rows, err := db.Query(vocabularyQuery)
+	if err != nil {
+		log.Fatal("Unable to query vocabularies names: ", err)
+	}
+	defer rows.Close()
+
+	names := []string{}
+
+	for rows.Next() {
+		var name string
+		rows.Scan(&name)
+		names = append(names, name)
+	}
+	return names
 }

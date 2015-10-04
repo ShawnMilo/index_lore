@@ -66,4 +66,6 @@ func connectToElasticsearch() {
 	if index == "" {
 		index = "haystack"
 	}
+
+	ensureMapping()
 }

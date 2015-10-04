@@ -11,7 +11,8 @@ import (
 Functions for indexing into Elasticsearch.
 */
 
-const maxRecs = 250 // maximum number of resources to index at once
+const maxRecs = 250                    // maximum number of resources to index at once
+const mappingName = "learningresource" // name of Elasticsearch mapping
 
 func indexCourse(course *Course) (count int) {
 	// All variables are initialized with their "zero value."
@@ -40,11 +41,39 @@ func indexResources(resources []*LearningResource) {
 	for _, resource := range resources {
 		id := strconv.Itoa(resource.id)
 		doc := resource.toSerializable()
-		request := elastic.NewBulkIndexRequest().Index("haystack").Type("learningresource").Id(id).Doc(doc)
+		request := elastic.NewBulkIndexRequest().Index("haystack").Type(mappingName).Id(id).Doc(doc)
 		service.Add(request)
 	}
 	_, err := service.Do()
 	if err != nil {
 		log.Fatal("Failed to index resources: ", err)
+	}
+}
+
+// ensureMapping makes sure the index and mapping exist
+func ensureMapping() {
+	exists, err := elastic.NewIndexExistsService(es).Index(index).Do()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if !exists {
+		_, err := es.CreateIndex(index).Do()
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("created index %s\n", index)
+	}
+
+	exists, err = es.TypeExists().Type(mappingName).Do()
+	if !exists {
+		generatedMapping := getMapping().serializable()
+		_, err = elastic.NewPutMappingService(es).Type(mappingName).BodyJson(generatedMapping).Do()
+		if err != nil {
+			log.Fatalf("failed to create mapping %s: %s", mappingName, err)
+		}
+		log.Printf("created mapping %s\n", mappingName)
+
+		log.Fatal("quitting here for your enjoyment")
 	}
 }

@@ -10,10 +10,14 @@ var repositoryQuery = `
     FROM learningresources_repository
     ORDER BY id`
 
-var vocabularyQuery = `
+var repositoryVocabularyQuery = `
 	SELECT id, name
     FROM taxonomy_vocabulary
     WHERE repository_id=$1`
+
+var vocabularyQuery = `
+	SELECT name
+    FROM taxonomy_vocabulary`
 
 var termQuery = `
     SELECT id, label

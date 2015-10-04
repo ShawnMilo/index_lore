@@ -49,11 +49,11 @@ Note that adjusting the `maxRecs` constant will cause the application to use mor
 
 These are the next planned steps, in dependency order.
 
-- Create Elasticsearch index and mapping if they are missing (currently this application only refreshes the index; it doesn't rebuild it).
-- Add command-line flag to select refresh or rebuild.
-- Allow reindexing by any of: all, single repository, single course, single learning resource (currently "all" only).
-- Add RESTful API to trigger refresh by any of these, by primary key: all, single repository, single course, single learning resource.
-- Add command-line flag to run in API mode or as a one-off.
-- Add optional callback feature to API; after indexing is complete, JSON containing number of records indexed will be returned.
+- [x] Create Elasticsearch index and mapping if they are missing (currently this application only refreshes the index; it doesn't rebuild it).
+- [ ] Add command-line flag to select refresh or rebuild.
+- [ ] Allow reindexing by any of: all, single repository, single course, single learning resource (currently "all" only).
+- [ ] Add RESTful API to trigger refresh by any of these, by primary key: all, single repository, single course, single learning resource.
+- [ ] Add command-line flag to run in API mode or as a one-off.
+- [ ] Add optional callback feature to API; after indexing is complete, JSON containing number of records indexed will be returned.
 
 Once the API is complete, the LORE application can outsource all indexing to this service, reducing overall load.
