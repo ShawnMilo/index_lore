@@ -44,6 +44,7 @@ Note that adjusting the `maxRecs` constant will cause the application to use mor
 
 - [Mac OSX 64-bit](https://aoeus.com/index_lore_OSX)
 - [Linux 64-bit](https://aoeus.com/index_lore_Linux64)
+- [Windows 64-bit](https://aoeus.com/index_lore_Win64)
 
 # TODO
 
