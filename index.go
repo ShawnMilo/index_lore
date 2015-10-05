@@ -73,7 +73,5 @@ func ensureMapping() {
 			log.Fatalf("failed to create mapping %s: %s", mappingName, err)
 		}
 		log.Printf("created mapping %s\n", mappingName)
-
-		log.Fatal("quitting here for your enjoyment")
 	}
 }
