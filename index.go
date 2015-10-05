@@ -65,7 +65,7 @@ func ensureMapping() {
 		log.Printf("created index %s\n", index)
 	}
 
-	exists, err = es.TypeExists().Type(mappingName).Do()
+	exists, err = es.TypeExists().Index(index).Type(mappingName).Do()
 	if !exists {
 		generatedMapping := getMapping().serializable()
 		_, err = elastic.NewPutMappingService(es).Type(mappingName).BodyJson(generatedMapping).Do()
